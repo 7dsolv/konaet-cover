@@ -3,14 +3,21 @@ package com.konaet.cover.core.designsystem.tokens
 import androidx.compose.ui.graphics.Color
 
 object KonaetColorTokens {
-    val Obsidian = Color(0xFF0B0E12)
-    val Surface = Color(0xFF11161D)
-    val Surface2 = Color(0xFF18212A)
+    val Void = Color(0xFF050509)
+    val Obsidian = Color(0xFF08080E)
+    val Surface = Color(0xFF11111A)
+    val Surface2 = Color(0xFF191323)
+    val Surface3 = Color(0xFF241631)
+    val Violet = Color(0xFF9D32FF)
+    val ElectricViolet = Color(0xFF6D28D9)
+    val NeonPurple = Color(0xFFC026FF)
+    val Lavender = Color(0xFFE9D5FF)
     val Verified = Color(0xFF6FE7C8)
     val Ember = Color(0xFFFFB86C)
-    val Danger = Color(0xFFFF6B6B)
-    val Text = Color(0xFFF5F7FA)
-    val Muted = Color(0xFF98A4B1)
+    val Danger = Color(0xFFFF6B81)
+    val Text = Color(0xFFFBF9FF)
+    val Muted = Color(0xFFA9A3B6)
+    val Outline = Color(0xFF3C304A)
 }
 
 object KonaetSpacing {
@@ -24,6 +31,7 @@ object KonaetSpacing {
 
 object KonaetRadius {
     const val Small = 8
-    const val Medium = 18
-    const val Large = 28
+    const val Medium = 16
+    const val Large = 24
+    const val XLarge = 32
 }

@@ -1,122 +1,154 @@
 package com.konaet.cover.feature.onboarding
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.konaet.cover.core.designsystem.components.KonaetBackdrop
+import com.konaet.cover.core.designsystem.components.KonaetBrandHero
+import com.konaet.cover.core.designsystem.components.KonaetGlassCard
+import com.konaet.cover.core.designsystem.components.KonaetPrimaryButton
+import com.konaet.cover.core.designsystem.components.KonaetStatusPill
 import com.konaet.cover.core.designsystem.tokens.KonaetColorTokens
-import com.konaet.cover.core.designsystem.tokens.KonaetSpacing
 
 @Composable
 fun OnboardingScreen(onComplete: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(KonaetColorTokens.Obsidian)
-            .padding(horizontal = KonaetSpacing.Large.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Spacer(modifier = Modifier.height(60.dp))
-
+    KonaetBackdrop {
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.safeDrawing.asPaddingValues())
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 22.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.weight(1f),
         ) {
-            Text(
-                text = "KONAET",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = KonaetColorTokens.Verified,
+            KonaetStatusPill(
+                text = "ALPHA · DEMO VERIFICÁVEL",
+                color = KonaetColorTokens.Lavender,
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "COVER",
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold,
-                color = KonaetColorTokens.Text,
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            KonaetBrandHero(
+                cubeSize = 176.dp,
+                wordmarkWidthFraction = 0.72f,
             )
-            Spacer(modifier = Modifier.height(12.dp))
+
             Text(
-                text = "Proteção verificável de dispositivos",
-                fontSize = 16.sp,
+                text = "Proteção coletiva reconstruída por evidências.",
+                style = MaterialTheme.typography.bodyLarge,
                 color = KonaetColorTokens.Muted,
+                textAlign = TextAlign.Center,
             )
-            Spacer(modifier = Modifier.height(60.dp))
 
-            OnboardingCard(
-                title = "PROTEÇÃO",
-                description = "Cobertura coletiva experimental em modo de simulação.",
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OnboardingCard(
-                title = "PROVA",
-                description = "Decisões reconstruídas a partir de eventos e evidências.",
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OnboardingCard(
-                title = "PRIVACIDADE",
-                description = "Sem dados pessoais ou identificadores reais em blockchain.",
-            )
-        }
+            Spacer(modifier = Modifier.height(22.dp))
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "DEMO · SIMULAÇÃO · SEM DINHEIRO REAL",
-                fontSize = 12.sp,
-                color = KonaetColorTokens.Ember,
-                modifier = Modifier.padding(bottom = KonaetSpacing.Large.dp),
-            )
-            Button(
-                onClick = onComplete,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Text("Começar", fontSize = 16.sp)
+                FeatureCard(
+                    index = "01",
+                    title = "PROTEÇÃO",
+                    description = "Modelo coletivo",
+                    modifier = Modifier.weight(1f),
+                )
+                FeatureCard(
+                    index = "02",
+                    title = "PROVA",
+                    description = "Trilha causal",
+                    modifier = Modifier.weight(1f),
+                )
+                FeatureCard(
+                    index = "03",
+                    title = "PRIVACIDADE",
+                    description = "Dados mínimos",
+                    modifier = Modifier.weight(1f),
+                )
             }
-            Spacer(modifier = Modifier.height(40.dp))
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            KonaetGlassCard(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "AMBIENTE CONTROLADO",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Black,
+                    color = KonaetColorTokens.Ember,
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = "Simulação técnica · sem dinheiro real · sem contratação de seguro",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = KonaetColorTokens.Muted,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            KonaetPrimaryButton(
+                text = "EXPLORAR O KONAET",
+                onClick = onComplete,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = "Código aberto · Build verificável · Android 9+",
+                style = MaterialTheme.typography.labelSmall,
+                color = KonaetColorTokens.Muted,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
 
 @Composable
-private fun OnboardingCard(title: String, description: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = KonaetColorTokens.Surface,
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(18.dp),
-            )
-            .padding(KonaetSpacing.Large.dp),
-    ) {
-        Column {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = KonaetColorTokens.Text,
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = description,
-                fontSize = 14.sp,
-                color = KonaetColorTokens.Muted,
-            )
-        }
+private fun FeatureCard(
+    index: String,
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier,
+) {
+    KonaetGlassCard(modifier = modifier.height(102.dp)) {
+        Text(
+            text = index,
+            style = MaterialTheme.typography.labelSmall,
+            color = KonaetColorTokens.NeonPurple,
+            fontWeight = FontWeight.Black,
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelMedium,
+            color = KonaetColorTokens.Text,
+            fontWeight = FontWeight.Black,
+            maxLines = 1,
+        )
+        Spacer(modifier = Modifier.height(3.dp))
+        Text(
+            text = description,
+            style = MaterialTheme.typography.labelSmall,
+            color = KonaetColorTokens.Muted,
+            maxLines = 1,
+        )
     }
 }

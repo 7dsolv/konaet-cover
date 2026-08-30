@@ -1,36 +1,68 @@
 package com.konaet.cover.feature.auth
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Api
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.konaet.cover.core.designsystem.components.KonaetBackdrop
+import com.konaet.cover.core.designsystem.components.KonaetBrandHero
+import com.konaet.cover.core.designsystem.components.KonaetGlassCard
+import com.konaet.cover.core.designsystem.components.KonaetPrimaryButton
+import com.konaet.cover.core.designsystem.components.KonaetStatusPill
 import com.konaet.cover.core.designsystem.tokens.KonaetColorTokens
-import com.konaet.cover.core.designsystem.tokens.KonaetSpacing
+import com.konaet.cover.core.designsystem.tokens.KonaetRadius
 
 @Composable
 fun AuthScreen(
     onLoginSuccess: () -> Unit,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
 ) {
-    var email by remember { mutableStateOf("demo@konaet.local") }
-    var password by remember { mutableStateOf("password") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var showApiLogin by remember { mutableStateOf(false) }
 
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(uiState) {
@@ -39,167 +71,181 @@ fun AuthScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(KonaetColorTokens.Obsidian)
-            .padding(KonaetSpacing.Large.dp)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp * 2))
-
-        // Header
-        Text(
-            text = "Sign In",
-            fontSize = 32.sp,
-            color = KonaetColorTokens.Text,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
-
-        Text(
-            text = "Welcome back to KONAET COVER",
-            fontSize = 14.sp,
-            color = KonaetColorTokens.Muted
-        )
-
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp * 2))
-
-        // Email field
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email Address") },
-            placeholder = { Text("you@example.com") },
-            leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+    KonaetBackdrop {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = KonaetColorTokens.Verified,
-                unfocusedBorderColor = KonaetColorTokens.Surface,
-                focusedLabelColor = KonaetColorTokens.Verified,
-                cursorColor = KonaetColorTokens.Verified,
-                focusedTextColor = KonaetColorTokens.Text,
-                unfocusedTextColor = KonaetColorTokens.Text
-            ),
-            singleLine = true
-        )
-
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
-
-        // Password field
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            placeholder = { Text("••••••••") },
-            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
-            trailingIcon = {
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(
-                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                        contentDescription = "Toggle password"
-                    )
-                }
-            },
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = KonaetColorTokens.Verified,
-                unfocusedBorderColor = KonaetColorTokens.Surface,
-                focusedLabelColor = KonaetColorTokens.Verified,
-                cursorColor = KonaetColorTokens.Verified,
-                focusedTextColor = KonaetColorTokens.Text,
-                unfocusedTextColor = KonaetColorTokens.Text
-            ),
-            singleLine = true
-        )
-
-        // Error message
-        if (uiState is AuthUiState.Error) {
-            Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
-            Text(
-                text = (uiState as AuthUiState.Error).message,
-                color = KonaetColorTokens.Danger,
-                fontSize = 12.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        KonaetColorTokens.Danger.copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(KonaetSpacing.Large.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp * 2))
-
-        // Sign In button
-        Button(
-            onClick = {
-                viewModel.login(email, password)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            enabled = uiState !is AuthUiState.Loading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = KonaetColorTokens.Verified,
-                disabledContainerColor = KonaetColorTokens.Verified.copy(alpha = 0.5f)
-            )
+                .fillMaxSize()
+                .padding(WindowInsets.safeDrawing.asPaddingValues())
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 22.dp, vertical = 14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            if (uiState is AuthUiState.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = KonaetColorTokens.Obsidian
+            KonaetBrandHero(
+                cubeSize = 118.dp,
+                wordmarkWidthFraction = 0.58f,
+            )
+
+            KonaetStatusPill(
+                text = "ACESSO PÚBLICO · ALPHA",
+                color = KonaetColorTokens.Lavender,
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            KonaetGlassCard(
+                modifier = Modifier.fillMaxWidth(),
+                emphasized = true,
+            ) {
+                Text(
+                    text = "ENTRE NO LABORATÓRIO",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Black,
+                    color = KonaetColorTokens.Text,
                 )
-            } else {
-                Text("Sign In", color = KonaetColorTokens.Obsidian, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Navegue por pools, eventos causais e simulações de risco sem criar conta.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = KonaetColorTokens.Muted,
+                )
+                Spacer(modifier = Modifier.height(18.dp))
+                KonaetPrimaryButton(
+                    text = "ENTRAR NO MODO DEMONSTRAÇÃO",
+                    onClick = viewModel::continueInDemoMode,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = uiState !is AuthUiState.Loading,
+                    leadingIcon = Icons.Default.ArrowForward,
+                )
             }
-        }
 
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
-        OutlinedButton(
-            onClick = viewModel::continueInDemoMode,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            enabled = uiState !is AuthUiState.Loading,
-        ) {
-            Text("Entrar no modo demonstração")
-        }
+            TextButton(onClick = { showApiLogin = !showApiLogin }) {
+                Icon(
+                    imageVector = Icons.Default.Api,
+                    contentDescription = null,
+                    tint = KonaetColorTokens.Violet,
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = if (showApiLogin) "Ocultar acesso à API" else "Conectar à API de desenvolvimento",
+                    color = KonaetColorTokens.Lavender,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
 
-        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
+            AnimatedVisibility(visible = showApiLogin) {
+                KonaetGlassCard(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "API DE DESENVOLVIMENTO",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Black,
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("E-mail") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Email, contentDescription = null)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        colors = konaetTextFieldColors(),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(KonaetRadius.Medium.dp),
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Senha") },
+                        leadingIcon = {
+                            Icon(Icons.Default.Lock, contentDescription = null)
+                        },
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(
+                                    imageVector = if (passwordVisible) {
+                                        Icons.Default.VisibilityOff
+                                    } else {
+                                        Icons.Default.Visibility
+                                    },
+                                    contentDescription = if (passwordVisible) {
+                                        "Ocultar senha"
+                                    } else {
+                                        "Mostrar senha"
+                                    },
+                                )
+                            }
+                        },
+                        visualTransformation = if (passwordVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        colors = konaetTextFieldColors(),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(KonaetRadius.Medium.dp),
+                    )
 
-        // Sign up link
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
+                    if (uiState is AuthUiState.Error) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text(
+                            text = (uiState as AuthUiState.Error).message,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = KonaetColorTokens.Danger,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedButton(
+                        onClick = { viewModel.login(email.trim(), password) },
+                        enabled = email.isNotBlank() && password.isNotBlank() &&
+                            uiState !is AuthUiState.Loading,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                    ) {
+                        if (uiState is AuthUiState.Loading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.height(22.dp),
+                                color = KonaetColorTokens.Violet,
+                                strokeWidth = 2.dp,
+                            )
+                        } else {
+                            Text("CONECTAR", fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Don't have an account? ",
+                text = "A demonstração não envia dados pessoais e não movimenta dinheiro real.",
+                style = MaterialTheme.typography.bodySmall,
                 color = KonaetColorTokens.Muted,
-                fontSize = 12.sp
+                textAlign = TextAlign.Center,
             )
-            TextButton(onClick = { /* TODO: Navigate to signup */ }) {
-                Text("Sign Up", color = KonaetColorTokens.Verified, fontSize = 12.sp)
-            }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Footer
-        Text(
-            text = "🔒 Your data is encrypted end-to-end",
-            fontSize = 11.sp,
-            color = KonaetColorTokens.Muted,
-            modifier = Modifier.padding(vertical = KonaetSpacing.Large.dp)
-        )
     }
 }
+
+@Composable
+private fun konaetTextFieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedBorderColor = KonaetColorTokens.Violet,
+    unfocusedBorderColor = KonaetColorTokens.Outline,
+    focusedLabelColor = KonaetColorTokens.Lavender,
+    unfocusedLabelColor = KonaetColorTokens.Muted,
+    cursorColor = KonaetColorTokens.NeonPurple,
+    focusedTextColor = KonaetColorTokens.Text,
+    unfocusedTextColor = KonaetColorTokens.Text,
+    focusedLeadingIconColor = KonaetColorTokens.Violet,
+    unfocusedLeadingIconColor = KonaetColorTokens.Muted,
+    focusedTrailingIconColor = KonaetColorTokens.Violet,
+    unfocusedTrailingIconColor = KonaetColorTokens.Muted,
+    focusedContainerColor = Color.Transparent,
+    unfocusedContainerColor = Color.Transparent,
+)

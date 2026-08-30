@@ -6,14 +6,14 @@ import androidx.compose.runtime.Composable
 import com.konaet.cover.core.designsystem.tokens.KonaetColorTokens
 
 private val DarkColorScheme = darkColorScheme(
-    primary = KonaetColorTokens.Verified,
-    secondary = KonaetColorTokens.Ember,
+    primary = KonaetColorTokens.Violet,
+    secondary = KonaetColorTokens.NeonPurple,
     tertiary = KonaetColorTokens.Verified,
     background = KonaetColorTokens.Obsidian,
     surface = KonaetColorTokens.Surface,
     error = KonaetColorTokens.Danger,
-    onPrimary = KonaetColorTokens.Obsidian,
-    onSecondary = KonaetColorTokens.Obsidian,
+    onPrimary = KonaetColorTokens.Text,
+    onSecondary = KonaetColorTokens.Text,
     onBackground = KonaetColorTokens.Text,
     onSurface = KonaetColorTokens.Text,
     onError = KonaetColorTokens.Obsidian,

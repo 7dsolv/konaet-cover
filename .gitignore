@@ -82,6 +82,8 @@ Thumbs.db
 *.pem
 *.key
 *.keystore
+*.jks
+keystore.properties
 keystore.jks
 
 # Docker e CI/CD são parte do repositório.

@@ -52,13 +52,13 @@ flowchart LR
 A probabilidade ajustada é limitada a 15% e combina fatores explícitos:
 
 ```math
-p_{ajustada} = \min\left(p_{fabricante}\, f_{idade}\, f_{cobertura}\, f_{região},\ 0{,}15\right)
+p_{\mathrm{ajustada}} = \min\left(p_{\mathrm{fabricante}}\, f_{\mathrm{idade}}\, f_{\mathrm{cobertura}}\, f_{\mathrm{região}},\ 0{,}15\right)
 ```
 
 Cada execução estima a frequência de perda em $N$ amostras de Bernoulli:
 
 ```math
-\widehat{p} = \frac{1}{N}\sum_{i=1}^{N} X_i, \qquad X_i \sim \operatorname{Bernoulli}(p_{ajustada})
+\widehat{p} = \frac{1}{N}\sum_{i=1}^{N} X_i, \qquad X_i \sim \mathrm{Bernoulli}\!\left(p_{\mathrm{ajustada}}\right)
 ```
 
 O resultado inclui um intervalo de confiança de 95% pelo método de Wilson. Uma semente opcional permite reproduzir a mesma simulação em testes e auditorias.

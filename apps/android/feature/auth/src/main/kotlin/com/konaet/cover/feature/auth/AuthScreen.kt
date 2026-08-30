@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.konaet.cover.core.designsystem.tokens.KonaetColorTokens
 import com.konaet.cover.core.designsystem.tokens.KonaetSpacing
-import kotlinx.coroutines.launch
 
 @Composable
 fun AuthScreen(
@@ -33,8 +32,6 @@ fun AuthScreen(
     var passwordVisible by remember { mutableStateOf(false) }
 
     val uiState by viewModel.uiState.collectAsState()
-    val scope = rememberCoroutineScope()
-
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
             onLoginSuccess()
@@ -163,6 +160,18 @@ fun AuthScreen(
             } else {
                 Text("Sign In", color = KonaetColorTokens.Obsidian, fontWeight = FontWeight.Bold)
             }
+        }
+
+        Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))
+
+        OutlinedButton(
+            onClick = viewModel::continueInDemoMode,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            enabled = uiState !is AuthUiState.Loading,
+        ) {
+            Text("Entrar no modo demonstração")
         }
 
         Spacer(modifier = Modifier.height(KonaetSpacing.Large.dp))

@@ -1,0 +1,47 @@
+name: Android device smoke test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  emulator:
+    name: Instalar e abrir APK no Android 15
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v4.0.1
+      - uses: gradle/actions/wrapper-validation@v6.3.0
+      - uses: gradle/actions/setup-gradle@v6.3.0
+      - name: Compilar APK de demonstração
+        working-directory: apps/android
+        run: ./gradlew --no-daemon assembleDevDebug
+      - name: Instalar e iniciar no emulador
+        uses: reactivecircus/android-emulator-runner@v2.38.0
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            adb install -r apps/android/app/build/outputs/apk/dev/debug/app-dev-debug.apk
+            adb shell am start -W -n com.konaet.cover.dev/com.konaet.cover.MainActivity
+            sleep 3
+            adb shell dumpsys activity activities | grep -q "com.konaet.cover.dev"
+            adb exec-out screencap -p > konaet-cover-smoke.png
+      - name: Publicar evidência do teste
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: konaet-cover-emulator-smoke
+          path: konaet-cover-smoke.png
+          if-no-files-found: warn
+          retention-days: 30

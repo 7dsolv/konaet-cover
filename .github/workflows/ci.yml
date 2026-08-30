@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   api:
-    name: API · build, lint e testes
+    name: API - build, lint e testes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -33,7 +33,7 @@ jobs:
       - run: pnpm --filter @konaet/api exec jest --runInBand
 
   risk-engine:
-    name: Motor de risco · testes
+    name: Motor de risco - testes
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -50,7 +50,7 @@ jobs:
       - run: python -m pytest -q
 
   contracts:
-    name: Contrato · Foundry tests
+    name: Contrato - Foundry tests
     runs-on: ubuntu-latest
     defaults:
       run:

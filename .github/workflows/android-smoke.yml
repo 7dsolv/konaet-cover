@@ -37,16 +37,86 @@ jobs:
           profile: pixel_6
           disable-animations: true
           script: |
+            set -euo pipefail
+
+            mkdir -p store-screenshots
+
+            dump_ui() {
+              adb shell uiautomator dump /sdcard/window.xml >/dev/null
+              adb exec-out cat /sdcard/window.xml > window.xml
+            }
+
+            wait_for_text() {
+              local label="$1"
+              for _ in $(seq 1 20); do
+                dump_ui
+                if grep -Fq "text=\"${label}\"" window.xml; then
+                  return 0
+                fi
+                sleep 1
+              done
+
+              echo "Texto não encontrado na interface: ${label}" >&2
+              cat window.xml >&2
+              return 1
+            }
+
+            tap_text() {
+              local label="$1"
+              wait_for_text "$label"
+
+              local bounds
+              bounds="$(
+                sed 's/></>\n</g' window.xml |
+                  grep -F "text=\"${label}\"" |
+                  head -n 1 |
+                  sed -n 's/.*bounds="\[\([0-9]*\),\([0-9]*\)\]\[\([0-9]*\),\([0-9]*\)\]".*/\1 \2 \3 \4/p'
+              )"
+
+              if [ -z "$bounds" ]; then
+                echo "Limites não encontrados para: ${label}" >&2
+                return 1
+              fi
+
+              read -r x1 y1 x2 y2 <<< "$bounds"
+              adb shell input tap "$(((x1 + x2) / 2))" "$(((y1 + y2) / 2))"
+            }
+
+            capture() {
+              local filename="$1"
+              sleep 1
+              adb exec-out screencap -p > "store-screenshots/${filename}"
+            }
+
             adb install -r apps/android/app/build/outputs/apk/dev/debug/app-dev-debug.apk
+            adb shell wm size 1080x1920
+            adb shell wm density 420
             adb shell am start -W -n com.konaet.cover.dev/com.konaet.cover.MainActivity
-            sleep 3
             adb shell dumpsys activity activities | grep -q "com.konaet.cover.dev"
-            adb exec-out screencap -p > konaet-cover-smoke.png
+
+            wait_for_text "Começar"
+            capture "01-onboarding.png"
+
+            tap_text "Começar"
+            wait_for_text "Entrar no modo demonstração"
+            capture "02-demo-access.png"
+
+            tap_text "Entrar no modo demonstração"
+            wait_for_text "Protection Status"
+            capture "03-protection-status.png"
+
+            tap_text "Pool"
+            wait_for_text "Protection Pools"
+            capture "04-protection-pools.png"
+
+            tap_text "Profile"
+            wait_for_text "User Profile"
+            capture "05-profile.png"
       - name: Publicar evidência do teste
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: konaet-cover-emulator-smoke
-          path: konaet-cover-smoke.png
+          path: store-screenshots/*.png
           if-no-files-found: warn
           retention-days: 30

@@ -7,6 +7,17 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+val uploadStoreFile = providers.environmentVariable("KONAET_UPLOAD_STORE_FILE").orNull
+val uploadStorePassword = providers.environmentVariable("KONAET_UPLOAD_STORE_PASSWORD").orNull
+val uploadKeyAlias = providers.environmentVariable("KONAET_UPLOAD_KEY_ALIAS").orNull
+val uploadKeyPassword = providers.environmentVariable("KONAET_UPLOAD_KEY_PASSWORD").orNull
+val releaseSigningReady = listOf(
+    uploadStoreFile,
+    uploadStorePassword,
+    uploadKeyAlias,
+    uploadKeyPassword,
+).all { !it.isNullOrBlank() }
+
 android {
     namespace = "com.konaet.cover"
     compileSdk = 36
@@ -23,6 +34,17 @@ android {
 
     }
 
+    signingConfigs {
+        if (releaseSigningReady) {
+            create("release") {
+                storeFile = file(uploadStoreFile!!)
+                storePassword = uploadStorePassword
+                keyAlias = uploadKeyAlias
+                keyPassword = uploadKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -31,6 +53,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (releaseSigningReady) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         debug {
             isMinifyEnabled = false
@@ -102,8 +127,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
 
     // Hilt (Dependency Injection)
-    implementation("com.google.dagger:hilt-android:2.60.1")
-    kapt("com.google.dagger:hilt-compiler:2.60.1")
+    implementation("com.google.dagger:hilt-android:2.59.2")
+    kapt("com.google.dagger:hilt-compiler:2.59.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
 
     // Network

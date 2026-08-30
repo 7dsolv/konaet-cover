@@ -40,8 +40,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.10.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
-    implementation("com.google.dagger:hilt-android:2.60.1")
-    kapt("com.google.dagger:hilt-compiler:2.60.1")
+    implementation("com.google.dagger:hilt-android:2.59.2")
+    kapt("com.google.dagger:hilt-compiler:2.59.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0")
 }

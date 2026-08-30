@@ -39,8 +39,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     // Hilt for DI
-    implementation("com.google.dagger:hilt-android:2.60.1")
-    kapt("com.google.dagger:hilt-compiler:2.60.1")
+    implementation("com.google.dagger:hilt-android:2.59.2")
+    kapt("com.google.dagger:hilt-compiler:2.59.2")
 
     // DataStore for preferences
     implementation("androidx.core:core-ktx:1.19.0")

@@ -1,0 +1,45 @@
+{
+  "name": "konaet-cover",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Device protection app with causal audit, blockchain anchoring and risk simulation",
+  "license": "MIT",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20.11.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "setup": "corepack pnpm install && corepack pnpm run infra:up && corepack pnpm run db:generate",
+    "dev": "corepack pnpm run dev:api",
+    "dev:api": "corepack pnpm --filter @konaet/api dev",
+    "dev:risk": "corepack pnpm --filter risk-engine dev",
+    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker/docker-compose.yml down",
+    "infra:reset": "docker compose -f infra/docker/docker-compose.yml down -v",
+    "db:generate": "corepack pnpm --filter @konaet/api db:generate",
+    "db:push": "corepack pnpm --filter @konaet/api db:push",
+    "db:migrate": "corepack pnpm --filter @konaet/api db:migrate",
+    "db:seed": "corepack pnpm --filter @konaet/api db:seed",
+    "test": "corepack pnpm run test:api && corepack pnpm run test:risk",
+    "test:api": "corepack pnpm --filter @konaet/api test",
+    "test:risk": "corepack pnpm --filter risk-engine test",
+    "test:contracts": "corepack pnpm --filter konaet-contracts test",
+    "lint": "corepack pnpm --filter @konaet/api lint",
+    "format": "corepack pnpm --filter @konaet/api format",
+    "format:check": "corepack pnpm --filter @konaet/api format:check",
+    "build": "corepack pnpm --filter @konaet/api build",
+    "android:build:dev": "cd apps/android && ./gradlew :app:assembleDebug",
+    "clean": "corepack pnpm -r exec -- rimraf dist coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "qs": "6.15.2"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+name: Relatar um bug
+description: Informe um comportamento reproduzível que precisa de correção.
+title: "bug: "
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: O que aconteceu e o que era esperado?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Como reproduzir
+      description: Inclua passos mínimos, ambiente e logs sem segredos.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Segurança
+      options:
+        - label: Confirmei que isto não expõe vulnerabilidade ou dados sensíveis.
+          required: true

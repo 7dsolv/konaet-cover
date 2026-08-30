@@ -1,0 +1,19 @@
+name: Propor uma melhoria
+description: Sugira uma capacidade, documentação ou melhoria técnica.
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Qual problema a proposta resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Descreva comportamento, alternativas e riscos.
+    validations:
+      required: true

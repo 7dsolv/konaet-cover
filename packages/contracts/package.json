@@ -1,0 +1,14 @@
+{
+  "name": "konaet-contracts",
+  "version": "0.1.0",
+  "description": "KONAET COVER Smart Contracts",
+  "private": true,
+  "scripts": {
+    "compile": "forge build",
+    "test": "forge test",
+    "test:verbose": "forge test -vvv",
+    "test:fuzz": "forge test --fuzz-runs 1000",
+    "test:coverage": "forge coverage",
+    "deploy:local": "forge script script/Deploy.s.sol --rpc-url http://127.0.0.1:8545 --broadcast"
+  }
+}

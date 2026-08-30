@@ -1,0 +1,18 @@
+{
+  "name": "risk-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monte Carlo risk simulation and fraud detection engine",
+  "scripts": {
+    "dev": "python main.py",
+    "start": "python main.py",
+    "deps": "python -m pip install -r requirements.txt",
+    "test": "python -m pytest -q"
+  },
+  "keywords": [
+    "risk",
+    "simulation",
+    "monte-carlo",
+    "fraud"
+  ]
+}

@@ -1,0 +1,10 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+
+[profile.default.fuzz]
+runs = 1000
+
+[dependencyResolution]
+version = "~1.7.0"

@@ -1,0 +1,282 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User and Authentication
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  status    String   @default("active") // active, deleted, suspended
+  locale    String   @default("pt-BR")
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+
+  sessions      Session[]
+  deviceKeys    DeviceKey[]
+  protectedDevices ProtectedDevice[]
+  coverages     Coverage[]
+  claims        Claim[]
+  ledgerEntries LedgerEntry[]
+  memberships  Membership[]
+
+  @@map("users")
+}
+
+model Session {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceKeyId     String?
+  deviceKey       DeviceKey? @relation(fields: [deviceKeyId], references: [id], onDelete: SetNull)
+  refreshHash     String
+  expiresAt       DateTime
+  revokedAt       DateTime?
+  createdAt       DateTime @default(now())
+
+  @@map("sessions")
+}
+
+model DeviceKey {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  publicKey       String   @unique
+  algorithm       String   @default("ES256") // P-256
+  attestationJson String?
+  status          String   @default("active") // active, revoked
+  createdAt       DateTime @default(now())
+  revokedAt       DateTime?
+
+  sessions Session[]
+
+  @@map("device_keys")
+}
+
+// Device Protection
+model ProtectedDevice {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nickname        String
+  make            String
+  model           String
+  purchaseValueMinor Int? // In cents
+  currency        String   @default("BRL")
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+
+  coverages       Coverage[]
+  claims          Claim[]
+
+  @@map("protected_devices")
+}
+
+// Pool Management
+model Pool {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  name            String
+  mode            String   @default("DEMO") // DEMO, STAGING, REGULATED
+  ruleVersionId   String
+  capacityMinor   BigInt   @default(1000000000) // In cents
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+
+  memberships     Membership[]
+  coverages       Coverage[]
+  riskSimulations RiskSimulation[]
+
+  @@map("pools")
+}
+
+model Membership {
+  id              String   @id @default(cuid())
+  poolId          String
+  pool            Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt        DateTime @default(now())
+  status          String   @default("active")
+
+  @@unique([poolId, userId])
+  @@map("memberships")
+}
+
+// Coverage
+model Coverage {
+  id              String   @id @default(cuid())
+  membershipId    String
+  deviceId        String
+  device          ProtectedDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  poolId          String
+  pool            Pool    @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ruleVersionId   String
+  startsAt        DateTime
+  endsAt          DateTime?
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+
+  claims          Claim[]
+
+  @@map("coverages")
+}
+
+// Claims
+model Claim {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coverageId      String
+  coverage        Coverage @relation(fields: [coverageId], references: [id], onDelete: Cascade)
+  deviceId        String
+  device          ProtectedDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  type            String   @default("LOSS")
+  state           String   @default("DRAFT") // DRAFT, SUBMITTED, EVIDENCE_LOCKED, VALIDATING, APPROVED, REJECTED, SETTLED, APPEAL
+  version         Int      @default(1)
+  occurredAt      DateTime
+  submittedAt     DateTime?
+  createdAt       DateTime @default(now())
+
+  evidence        Evidence[]
+  decisions       ClaimDecision[]
+  fraudSignals    FraudSignal[]
+
+  @@map("claims")
+}
+
+model Evidence {
+  id              String   @id @default(cuid())
+  claimId         String
+  claim           Claim    @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  objectKey       String   // S3/MinIO key
+  mime            String
+  size            Int
+  sha3_512        String
+  status          String   @default("uploaded") // draft, uploaded, locked, removed
+  revision        Int      @default(1)
+  createdAt       DateTime @default(now())
+
+  @@map("evidence")
+}
+
+model ClaimDecision {
+  id              String   @id @default(cuid())
+  claimId         String
+  claim           Claim    @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  decision        String   // APPROVED, REJECTED
+  reasonCode      String?
+  ruleVersion     String
+  reviewerId      String?
+  createdAt       DateTime @default(now())
+
+  @@map("claim_decisions")
+}
+
+model FraudSignal {
+  id              String   @id @default(cuid())
+  claimId         String
+  claim           Claim    @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  signalType      String   // velocity, evidence_reuse, device_integrity, temporal_conflict, graph_anomaly, model_score
+  score           Float
+  evidenceJson    String?
+  modelVersion    String?
+  createdAt       DateTime @default(now())
+
+  @@map("fraud_signals")
+}
+
+// Ledger
+model LedgerEntry {
+  id              String   @id @default(cuid())
+  accountId       String   // Could be user_id or pool_id
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  debitMinor      BigInt   @default(0)
+  creditMinor     BigInt   @default(0)
+  currency        String   @default("BRL")
+  refType         String?  // claim, contribution, settlement, fee
+  refId           String?  // ID of related entity
+  createdAt       DateTime @default(now())
+
+  @@map("ledger_entries")
+}
+
+// Causal Audit
+model CausalEvent {
+  id              String   @id @default(cuid())
+  eventType       String   // USER_REGISTERED.v1, CLAIM_SUBMITTED.v1, etc
+  subjectType     String   // user, claim, pool, etc
+  subjectId       String
+  logicalClock    BigInt
+  payloadSha3_512 String   // SHA3-512 hex
+  payloadKeccak256 String  // Keccak-256 hex
+  actorRef        String   // Pseudonymous reference
+  createdAt       DateTime @default(now())
+
+  parents         CausalEventParent[]
+
+  @@index([subjectType, subjectId])
+  @@index([eventType])
+  @@map("causal_events")
+}
+
+model CausalEventParent {
+  eventId         String
+  event           CausalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  parentEventId   String
+  createdAt       DateTime @default(now())
+
+  @@id([eventId, parentEventId])
+  @@map("causal_event_parents")
+}
+
+model Checkpoint {
+  id              String   @id @default(cuid())
+  sequence        BigInt   @unique
+  eventCount      Int
+  merkleRoot      String   // Keccak-256 root
+  stateRoot       String   // Application state root
+  createdAt       DateTime @default(now())
+
+  anchors         Anchor[]
+
+  @@map("checkpoints")
+}
+
+model Anchor {
+  id              String   @id @default(cuid())
+  checkpointId    String
+  checkpoint      Checkpoint @relation(fields: [checkpointId], references: [id], onDelete: Cascade)
+  chainId         Int      @default(31337)
+  contract        String
+  txHash          String
+  blockNumber     BigInt
+  status          String   @default("confirmed") // pending, confirmed, failed
+  createdAt       DateTime @default(now())
+
+  @@map("anchors")
+}
+
+// Risk
+model RiskSimulation {
+  id              String   @id @default(cuid())
+  poolId          String
+  pool            Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  modelVersion    String
+  seed            BigInt
+  paramsJson      String   // JSON
+  resultJson      String   // JSON
+  createdAt       DateTime @default(now())
+
+  @@map("risk_simulations")
+}

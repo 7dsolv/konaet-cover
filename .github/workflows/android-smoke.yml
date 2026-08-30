@@ -37,7 +37,7 @@ jobs:
           profile: pixel_6
           disable-animations: true
           script: |
-            set -euo pipefail
+            set -eu
 
             mkdir -p store-screenshots
 
@@ -78,7 +78,11 @@ jobs:
                 return 1
               fi
 
-              read -r x1 y1 x2 y2 <<< "$bounds"
+              set -- $bounds
+              x1="$1"
+              y1="$2"
+              x2="$3"
+              y2="$4"
               adb shell input tap "$(((x1 + x2) / 2))" "$(((y1 + y2) / 2))"
             }
 

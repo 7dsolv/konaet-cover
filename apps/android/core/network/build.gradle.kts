@@ -42,5 +42,5 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.50")
 
     // DataStore for preferences
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.19.0")
 }

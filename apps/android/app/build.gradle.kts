@@ -127,8 +127,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
 
     // Hilt (Dependency Injection)
-    implementation("com.google.dagger:hilt-android:2.59.2")
-    kapt("com.google.dagger:hilt-compiler:2.59.2")
+    implementation("com.google.dagger:hilt-android:2.58")
+    kapt("com.google.dagger:hilt-compiler:2.58")
     implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
 
     // Network

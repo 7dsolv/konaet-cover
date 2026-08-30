@@ -19,6 +19,7 @@ build/
 *.iml
 
 # Build outputs
+release-artifacts/
 *.apk
 *.aab
 *.aar

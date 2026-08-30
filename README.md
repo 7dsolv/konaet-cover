@@ -7,6 +7,8 @@
 ### Proteção experimental de dispositivos com decisões reconstruíveis
 
 [![CI](https://github.com/7dsolv/konaet-cover/actions/workflows/ci.yml/badge.svg)](https://github.com/7dsolv/konaet-cover/actions/workflows/ci.yml)
+[![Android smoke](https://github.com/7dsolv/konaet-cover/actions/workflows/android-smoke.yml/badge.svg)](https://github.com/7dsolv/konaet-cover/actions/workflows/android-smoke.yml)
+[![APK alpha](https://img.shields.io/badge/APK-v0.1.0--alpha.1-3ddc84?style=flat-square&logo=android&logoColor=white)](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.1)
 [![Licença MIT](https://img.shields.io/github/license/7dsolv/konaet-cover?style=flat-square&color=00c896)](LICENSE)
 [![Contribuições](https://img.shields.io/badge/contribuições-bem--vindas-7b5cff?style=flat-square)](CONTRIBUTING.md)
 [![Issues](https://img.shields.io/github/issues/7dsolv/konaet-cover?style=flat-square)](https://github.com/7dsolv/konaet-cover/issues)
@@ -26,6 +28,14 @@ O Konaet Cover é uma plataforma experimental para estudar proteção coletiva d
 
 O princípio central é simples: **uma decisão não deve apenas existir; ela deve poder ser reconstruída a partir de estado, evento, evidência e regra**.
 
+## Android alpha
+
+A versão `0.1.0-alpha.1` é uma demonstração navegável em Kotlin e Jetpack Compose. Ela pode ser usada sem servidor pelo botão **Entrar no modo demonstração**.
+
+[**Baixar o APK de demonstração**](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.1)
+
+O APK público usa a chave de debug do Android e serve somente para instalação e testes. Para a Play Store, o arquivo correto é o `prodRelease.aab` assinado em ambiente seguro com uma chave de upload própria. Consulte as [instruções Android](apps/android/README.md), a [política de privacidade](docs/PRIVACY.md) e o [checklist da Google Play](docs/PLAY_STORE_CHECKLIST.md).
+
 ## Arquitetura
 
 ```mermaid
@@ -40,7 +50,7 @@ flowchart LR
 
 | Componente | Estado atual | Diretório |
 |---|---|---|
-| Aplicativo Android | Protótipo navegável em evolução | [`apps/android`](apps/android) |
+| Aplicativo Android | Alpha compilável, com APK/AAB e validação automatizada | [`apps/android`](apps/android) |
 | API | Módulos de autenticação demo, dispositivos, pools e sinistros | [`services/api`](services/api) |
 | Motor de risco | Simulação Monte Carlo reproduzível e testada | [`services/risk-engine`](services/risk-engine) |
 | Checkpoint on-chain | Contrato e testes Foundry | [`packages/contracts`](packages/contracts) |
@@ -125,9 +135,12 @@ corepack pnpm run format:check
 corepack pnpm run test:api
 corepack pnpm run test:risk
 corepack pnpm run test:contracts
+
+cd apps/android
+./gradlew test lintDevDebug assembleDevDebug bundleProdRelease
 ```
 
-O workflow de CI executa verificações independentes para a API, o motor de risco e o contrato. O Android permanece marcado como protótipo até o wrapper e a matriz completa de testes instrumentados entrarem no repositório.
+O workflow de CI executa verificações independentes para API, motor de risco, contrato e Android. No Android, ele valida o Gradle Wrapper, roda testes e lint, compila o APK `devDebug` e o AAB `prodRelease`. Um workflow manual adicional instala o APK em um emulador Android 15, abre a atividade principal e publica uma captura de tela como evidência.
 
 ## Como colaborar
 
@@ -138,7 +151,7 @@ Forks, issues e pull requests são bem-vindos. Antes de começar:
 3. mantenha o modo `DEMO/SIMULATION` e não adicione dados pessoais ou segredos;
 4. inclua testes e explique as decisões técnicas no pull request.
 
-Consulte também o [código de conduta](CODE_OF_CONDUCT.md), a [política de segurança](SECURITY.md) e o [roadmap](docs/ROADMAP.md).
+Consulte também o [código de conduta](CODE_OF_CONDUCT.md), a [política de segurança](SECURITY.md), a [política de privacidade](docs/PRIVACY.md) e o [roadmap](docs/ROADMAP.md).
 
 ## Limites e segurança
 

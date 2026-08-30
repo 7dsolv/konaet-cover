@@ -4,7 +4,7 @@
 
 - [x] identificador de produção `com.konaet.cover`;
 - [x] `compileSdk` e `targetSdk` 36;
-- [x] `versionCode` 1 e `versionName` `0.1.0-alpha.1`;
+- [x] `versionCode` 2 e `versionName` `0.1.0-alpha.2`;
 - [x] ícone adaptativo e nome do aplicativo;
 - [x] apenas permissão de internet no manifesto de produção;
 - [x] minificação e redução de recursos na variante `prodRelease`;
@@ -14,6 +14,7 @@
 - [x] configuração de assinatura por variáveis de ambiente, sem segredos no Git;
 - [x] política de privacidade pública;
 - [x] rascunho de descrição e notas de versão em [`store-listing/pt-BR.md`](store-listing/pt-BR.md).
+- [x] ícone de loja 512 × 512, feature graphic 1024 × 500 e sete screenshots reais 1080 × 1920 em [`store-listing/graphics`](store-listing/graphics).
 
 ## Ações manuais antes do envio
 
@@ -22,7 +23,6 @@
 - [ ] gerar uma chave de upload, armazená-la em cofre seguro e habilitar Play App Signing;
 - [ ] assinar o AAB de produção e testar a assinatura;
 - [ ] definir uma API HTTPS de produção e revisar autenticação, exclusão e retenção de dados;
-- [ ] criar ícone de loja 512 × 512, feature graphic 1024 × 500 e screenshots reais;
 - [ ] preencher Data Safety, classificação de conteúdo, público-alvo e acesso ao app;
 - [ ] executar teste interno fechado em dispositivos físicos;
 - [ ] revisar acessibilidade, comportamento offline, ANRs e relatório de pré-lançamento;

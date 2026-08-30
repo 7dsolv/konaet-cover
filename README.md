@@ -69,7 +69,7 @@ O resultado inclui um intervalo de confiança de 95% pelo método de Wilson. Uma
 
 ### Requisitos
 
-- Node.js 20+
+- Node.js 22+ (24 LTS recomendado)
 - Corepack e pnpm 10
 - Python 3.12+
 - Docker com Compose

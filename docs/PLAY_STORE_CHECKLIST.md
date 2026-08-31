@@ -4,9 +4,9 @@
 
 - [x] identificador de produção `com.konaet.cover`;
 - [x] `compileSdk` e `targetSdk` 36;
-- [x] `versionCode` 2 e `versionName` `0.1.0-alpha.2`;
+- [x] `versionCode` 3 e `versionName` `0.1.0-alpha.3`;
 - [x] ícone adaptativo e nome do aplicativo;
-- [x] apenas permissão de internet no manifesto de produção;
+- [x] nenhuma permissão no manifesto de produção; internet limitada à variante de desenvolvimento;
 - [x] minificação e redução de recursos na variante `prodRelease`;
 - [x] Gradle Wrapper 8.13 com checksum da distribuição;
 - [x] build, testes, lint, APK e AAB executados pelo GitHub Actions;
@@ -20,8 +20,8 @@
 
 - [ ] concluir a verificação da conta de desenvolvedor no Play Console;
 - [ ] criar o aplicativo e confirmar a disponibilidade de `com.konaet.cover`;
-- [ ] gerar uma chave de upload, armazená-la em cofre seguro e habilitar Play App Signing;
-- [ ] assinar o AAB de produção e testar a assinatura;
+- [x] gerar uma chave de upload, armazená-la fora do Git e proteger a credencial pelo Windows DPAPI;
+- [x] assinar o AAB de produção e testar a assinatura;
 - [ ] definir uma API HTTPS de produção e revisar autenticação, exclusão e retenção de dados;
 - [ ] preencher Data Safety, classificação de conteúdo, público-alvo e acesso ao app;
 - [ ] executar teste interno fechado em dispositivos físicos;

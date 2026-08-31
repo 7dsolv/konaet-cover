@@ -22,7 +22,7 @@ Esta versão é uma demonstração de pesquisa:
 
 O projeto é aberto para estudo, auditoria e contribuições da comunidade.
 
-## Notas da versão 0.1.0-alpha.2
+## Notas da versão 0.1.0-alpha.3
 
 - nova identidade neon construída a partir do cubo e da assinatura Konaet Cover;
 - ícone adaptativo exclusivo, onboarding e acesso demonstrativo redesenhados;
@@ -30,6 +30,7 @@ O projeto é aberto para estudo, auditoria e contribuições da comunidade.
 - laboratório interativo com probabilidade ajustada, perdas esperadas e intervalo de Wilson de 95%;
 - ações do perfil e navegação validadas em emulador Android 15;
 - build reproduzível com APK e AAB gerados automaticamente.
+- versão da Google Play sem cadastro, anúncios, analytics, coleta de dados ou permissão de internet.
 
 ## Ordem sugerida das capturas
 

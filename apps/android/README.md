@@ -1,6 +1,6 @@
 # Konaet Cover para Android
 
-Aplicativo Android do Konaet Cover, escrito em Kotlin e Jetpack Compose. A versão `0.1.0-alpha.1` é uma demonstração navegável: não movimenta dinheiro, não oferece seguro e funciona sem servidor pelo botão **Entrar no modo demonstração**.
+Aplicativo Android do Konaet Cover, escrito em Kotlin e Jetpack Compose. A versão `0.1.0-alpha.3` é uma demonstração navegável: não movimenta dinheiro, não oferece seguro e funciona sem servidor pelo botão **Entrar no modo demonstração**.
 
 ## Requisitos
 
@@ -58,4 +58,4 @@ Quando as quatro variáveis estão presentes, o Gradle assina o bundle com a cha
 
 ## Segurança e privacidade
 
-O manifesto público solicita somente acesso à internet. A permissão de câmera foi removida enquanto não existe uma funcionalidade implementada que a justifique. Consulte a [política de privacidade](../../docs/PRIVACY.md) e o [checklist da Play Store](../../docs/PLAY_STORE_CHECKLIST.md).
+O manifesto de produção não solicita permissões. A permissão de internet existe somente na variante de desenvolvimento, fora do AAB enviado à Google Play. Consulte a [política de privacidade](../../docs/PRIVACY.md) e o [checklist da Play Store](../../docs/PLAY_STORE_CHECKLIST.md).

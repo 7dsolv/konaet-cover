@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/7dsolv/konaet-cover/actions/workflows/ci.yml/badge.svg)](https://github.com/7dsolv/konaet-cover/actions/workflows/ci.yml)
 [![Android smoke](https://github.com/7dsolv/konaet-cover/actions/workflows/android-smoke.yml/badge.svg)](https://github.com/7dsolv/konaet-cover/actions/workflows/android-smoke.yml)
-[![APK alpha](https://img.shields.io/badge/APK-v0.1.0--alpha.2-bc20ff?style=flat-square&logo=android&logoColor=white)](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.2)
+[![APK alpha](https://img.shields.io/badge/APK-v0.1.0--alpha.3-bc20ff?style=flat-square&logo=android&logoColor=white)](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.3)
 [![Licença MIT](https://img.shields.io/github/license/7dsolv/konaet-cover?style=flat-square&color=00c896)](LICENSE)
 [![Contribuições](https://img.shields.io/badge/contribuições-bem--vindas-7b5cff?style=flat-square)](CONTRIBUTING.md)
 [![Issues](https://img.shields.io/github/issues/7dsolv/konaet-cover?style=flat-square)](https://github.com/7dsolv/konaet-cover/issues)
@@ -30,9 +30,9 @@ O princípio central é simples: **uma decisão não deve apenas existir; ela de
 
 ## Android alpha
 
-A versão `0.1.0-alpha.2` é uma demonstração navegável em Kotlin e Jetpack Compose, com identidade visual própria, laboratório de risco interativo e fluxo completo em português. Ela pode ser usada sem servidor pelo botão **Entrar no modo demonstração**.
+A versão `0.1.0-alpha.3` é uma demonstração navegável em Kotlin e Jetpack Compose, com identidade visual própria, laboratório de risco interativo e fluxo completo em português. A variante da Google Play funciona localmente, sem cadastro, anúncios ou coleta de dados.
 
-[**Baixar o APK de demonstração**](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.2)
+[**Baixar o APK de demonstração**](https://github.com/7dsolv/konaet-cover/releases/tag/v0.1.0-alpha.3)
 
 <div align="center">
   <img src="docs/store-listing/graphics/screenshots/01-onboarding.png" width="23%" alt="Onboarding do Konaet Cover" />

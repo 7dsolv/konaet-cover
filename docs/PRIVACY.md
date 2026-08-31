@@ -15,7 +15,7 @@ O modo demonstração funciona localmente no aparelho e não exige cadastro. Est
 - não coloca dados pessoais em blockchain;
 - não vende nem compartilha dados pessoais.
 
-O aplicativo possui código experimental para conexão HTTPS com uma API. Se uma instância de backend for configurada e o usuário optar por autenticar, endereço de e-mail, credenciais de acesso e dados enviados voluntariamente poderão ser processados pela instância escolhida. Uma implantação pública deverá publicar seus próprios termos, finalidade, retenção, base legal e canal de exclusão antes de receber dados reais.
+A versão distribuída pela Google Play funciona inteiramente no modo demonstração, não apresenta formulário de autenticação, não possui permissão de internet e não transmite dados para servidores. O repositório contém módulos experimentais de API que não são utilizados pelo fluxo público do aplicativo.
 
 ## Segurança
 

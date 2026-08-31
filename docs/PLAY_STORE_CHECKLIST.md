@@ -6,7 +6,7 @@
 - [x] `compileSdk` e `targetSdk` 36;
 - [x] `versionCode` 3 e `versionName` `0.1.0-alpha.3`;
 - [x] ícone adaptativo e nome do aplicativo;
-- [x] nenhuma permissão no manifesto de produção; internet limitada à variante de desenvolvimento;
+- [x] nenhuma permissão de usuário ou acesso a dados no manifesto de produção; internet removida explicitamente da variante `prod`;
 - [x] minificação e redução de recursos na variante `prodRelease`;
 - [x] Gradle Wrapper 8.13 com checksum da distribuição;
 - [x] build, testes, lint, APK e AAB executados pelo GitHub Actions;

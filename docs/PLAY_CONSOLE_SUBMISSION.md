@@ -49,7 +49,7 @@ As respostas abaixo descrevem a variante de produção atual. Confirme-as novame
 - recursos financeiros: **o app não contém recursos financeiros, pagamentos, investimentos, crédito, seguro ou movimentação de dinheiro**;
 - coleta ou compartilhamento de dados: **Não**;
 - criação de conta: **Não**;
-- permissões: **nenhuma na variante de produção**.
+- permissões de usuário ou acesso a dados: **nenhuma na variante de produção**; a permissão interna do AndroidX para receivers não exportados não acessa dados do usuário.
 
 Preencha o questionário de classificação de conteúdo de forma literal. A demonstração não contém violência, conteúdo sexual, apostas, drogas, linguagem ofensiva nem interação entre usuários.
 

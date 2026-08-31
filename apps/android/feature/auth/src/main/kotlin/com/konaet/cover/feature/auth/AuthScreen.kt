@@ -98,7 +98,7 @@ fun AuthScreen(
                 Icon(
                     imageVector = Icons.Default.Security,
                     contentDescription = null,
-                    tint = KonaetColorTokens.Success,
+                    tint = KonaetColorTokens.Verified,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(

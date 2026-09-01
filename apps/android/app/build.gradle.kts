@@ -122,7 +122,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.9.8")
+    implementation("androidx.navigation:navigation-compose:2.10.0")
 
     // ViewModel & State
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")

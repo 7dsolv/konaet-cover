@@ -22,7 +22,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v4.0.1
+      - uses: android-actions/setup-android@v4.0.4
       - uses: gradle/actions/wrapper-validation@v6.3.0
       - uses: gradle/actions/setup-gradle@v6.3.0
       - name: Compilar APK de demonstração

@@ -5,4 +5,4 @@ pydantic-settings>=2.15,<3
 python-dotenv>=1.2.3,<2
 pytest>=9.1.1,<10
 pytest-asyncio>=1.4,<2
-httpx2>=2.12,<3
+httpx2>=2.13.1,<3

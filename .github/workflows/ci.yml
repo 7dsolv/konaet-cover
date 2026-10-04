@@ -76,8 +76,8 @@ jobs:
       - uses: android-actions/setup-android@v4.0.1
       - name: Instalar Android SDK 36
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      - uses: gradle/actions/wrapper-validation@v6.3.0
-      - uses: gradle/actions/setup-gradle@v6.3.0
+      - uses: gradle/actions/wrapper-validation@v6.4.0
+      - uses: gradle/actions/setup-gradle@v6.4.0
       - name: Testar, analisar e compilar
         run: ./gradlew --no-daemon test lintDevDebug assembleDevDebug bundleProdRelease
       - name: Publicar APK e AAB de validação
